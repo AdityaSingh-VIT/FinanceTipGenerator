@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1sSlrwfIvJzK7D_pDgCJJ3_a3_LK5slx6
 """
 
-!pip install numpy pandas scikit-learn xgboost matplotlib seaborn joblib
+
 
 # 2. Data Preparation and Feature Engineering - FINAL FIXED VERSION
 import numpy as np
@@ -307,46 +307,17 @@ print("\nEvaluating baseline models...")
 model_results = evaluate_models(X_train, y_train_encoded, X_test, y_test_encoded)
 
 # =============================================
-# Hyperparameter Tuning - UPDATED
+# Skip Hyperparameter Tuning - Use Best Model Directly
 # =============================================
 
-def tune_xgboost(X_train, y_train_encoded):
-    """Perform hyperparameter tuning for XGBoost"""
-    # Create pipeline
-    pipeline = Pipeline([
-        ('preprocessor', preprocessor),
-        ('classifier', XGBClassifier(random_state=42, eval_metric='mlogloss'))
-    ])
+# Since all models are performing at 99.95% accuracy, use XGBoost directly
+best_model = Pipeline([
+    ('preprocessor', preprocessor),
+    ('classifier', XGBClassifier(random_state=42, eval_metric='mlogloss'))
+])
 
-    # Parameter grid
-    param_grid = {
-        'classifier__n_estimators': [100, 200],
-        'classifier__max_depth': [3, 5, 7],
-        'classifier__learning_rate': [0.01, 0.1, 0.2],
-        'classifier__subsample': [0.8, 1.0],
-        'classifier__colsample_bytree': [0.8, 1.0]
-    }
-
-    # Grid search with cross-validation
-    grid_search = GridSearchCV(
-        pipeline,
-        param_grid,
-        cv=3,
-        scoring='accuracy',
-        verbose=1,
-        n_jobs=-1
-    )
-
-    print("\nStarting hyperparameter tuning for XGBoost...")
-    grid_search.fit(X_train, y_train_encoded)
-
-    print("\nBest parameters found:")
-    print(grid_search.best_params_)
-
-    return grid_search.best_estimator_
-
-# Tune the best performing model (XGBoost)
-best_model = tune_xgboost(X_train, y_train_encoded)
+print("\nTraining final XGBoost model (skipping hyperparameter tuning)...")
+best_model.fit(X_train, y_train_encoded)
 
 # =============================================
 # Final Model Evaluation - UPDATED
@@ -628,4 +599,3 @@ def get_user_input():
     }
 
     return data
-
