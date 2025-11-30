@@ -4,7 +4,7 @@ A machine learning-powered financial advisor that provides personalized financia
 
 ## 🌐 Live Demo
 
-**Try the live application here:** [Finance Tip Generator on Colab](https://colab.research.google.com/drive/1sSlrwfIvJzK7D_pDgCJJ3_a3_LK5slx6)
+**Try the live application here:** [Finance Tip Generator on Colab](https://colab.research.google.com/drive/1dZxHCdjoMRzcAuM3IcThyb5qGUAZGPll?usp=sharing)
 
 ## 📋 Project Overview
 
